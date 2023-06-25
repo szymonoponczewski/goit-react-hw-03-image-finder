@@ -3,8 +3,8 @@ import css from "./Modal.module.css";
 import PropTypes from "prop-types";
 
 export class Modal extends Component {
-  modalClose = (e) => {
-    if (e.key === "Escape" || e.type === "click") {
+  modalClose = (event) => {
+    if (event.key === "Escape" || event.type === "click") {
       this.props.onClick("");
     }
   };
