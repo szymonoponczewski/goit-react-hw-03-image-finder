@@ -51,7 +51,7 @@ export class App extends Component {
     }
   }
 
-  searchValue = (e) => this.setState({ photos: [], searchValue: e });
+  searchValue = (event) => this.setState({ photos: [], searchValue: event });
 
   showPhotos = () => {
     const { photos } = this.state;
@@ -62,8 +62,8 @@ export class App extends Component {
     if (this.state.photos.length < 12) return "none";
   };
 
-  loadMore = (e) => {
-    if (e) {
+  loadMore = (event) => {
+    if (event) {
       this.setState({ page: this.state.page + 1 });
 
       setTimeout(() => {
@@ -77,7 +77,7 @@ export class App extends Component {
 
   handleModal = (imageAddress) => this.setState({ modal: imageAddress });
 
-  modalClose = (e) => this.setState({ modal: e });
+  modalClose = (event) => this.setState({ modal: event });
 
   passImgToModal = () => this.state.modal;
 
