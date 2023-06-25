@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import { Component } from "react";
 import { fetchPictures } from "./services/api";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
@@ -6,7 +6,7 @@ import { Button } from "./Button/Button";
 import { Loader } from "./Loader/Loader";
 import { Modal } from "./Modal/Modal";
 
-class App extends Component {
+export class App extends Component {
   state = {
     photos: [],
     searchValue: "",
@@ -16,22 +16,32 @@ class App extends Component {
     modal: "",
   };
 
-  async componentDidUpdate(prevProps) {
+  async componentDidUpdate(prevState, prevProps) {
     if (
       this.state.searchValue !== prevProps.searchValue ||
       this.state.page !== prevProps.page
     ) {
       try {
-        this.setState({ isLoading: true, photos: [] });
+        this.setState({ isLoading: true });
 
         const photos = await fetchPictures(
           this.state.searchValue,
           this.state.page
         );
 
-        this.setState((prevState) => ({
-          photos: [...prevState.photos, ...photos],
-        }));
+        photos.map((photo) => {
+          return this.setState((prevState) => ({
+            photos: [
+              ...prevState.photos,
+              {
+                id: photo.id,
+                webformatURL: photo.webformatURL,
+                largeImageURL: photo.largeImageURL,
+                tags: photo.tags,
+              },
+            ],
+          }));
+        });
       } catch (error) {
         this.setState({ error });
         console.log(this.state.error);
@@ -41,7 +51,7 @@ class App extends Component {
     }
   }
 
-  searchValue = (event) => this.setState({ photos: [], searchValue: event });
+  searchValue = (e) => this.setState({ photos: [], searchValue: e });
 
   showPhotos = () => {
     const { photos } = this.state;
@@ -52,8 +62,8 @@ class App extends Component {
     if (this.state.photos.length < 12) return "none";
   };
 
-  loadMore = (event) => {
-    if (event) {
+  loadMore = (e) => {
+    if (e) {
       this.setState({ page: this.state.page + 1 });
 
       setTimeout(() => {
@@ -61,13 +71,13 @@ class App extends Component {
           top: document.body.scrollHeight,
           behavior: "smooth",
         });
-      }, 700);
+      }, 500);
     }
   };
 
   handleModal = (imageAddress) => this.setState({ modal: imageAddress });
 
-  modalClose = (event) => this.setState({ modal: event });
+  modalClose = (e) => this.setState({ modal: e });
 
   passImgToModal = () => this.state.modal;
 
@@ -96,5 +106,3 @@ class App extends Component {
     );
   }
 }
-
-export default App;

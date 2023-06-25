@@ -10,6 +10,7 @@ export const ImageGallery = ({ photos, imageAddress }) => {
         const { id, webformatURL, tags, largeImageURL } = photo;
         return (
           <ImageGalleryItem
+            key={id}
             id={id}
             webformatURL={webformatURL}
             largeImageURL={largeImageURL}
@@ -23,6 +24,6 @@ export const ImageGallery = ({ photos, imageAddress }) => {
 };
 
 ImageGallery.propTypes = {
-  pictures: PropTypes.array.isRequired,
-  imgAddress: PropTypes.func.isRequired,
+  photos: PropTypes.array.isRequired,
+  imageAddress: PropTypes.func.isRequired,
 };

@@ -15,8 +15,8 @@ export class Searchbar extends Component {
   };
 
   handleChange = (event) => {
-    const { query } = event.currentTarget;
-    this.setState({ name: query });
+    const { value } = event.currentTarget;
+    this.setState({ name: value || "" });
   };
 
   render() {
