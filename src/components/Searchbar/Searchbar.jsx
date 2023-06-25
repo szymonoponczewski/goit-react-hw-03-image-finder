@@ -1,4 +1,4 @@
-import { ImageGalleryItem } from "components/ImageGalleryItem/ImageGalleryItem";
+import { Component } from "react";
 import PropTypes from "prop-types";
 import css from "./Searchbar.module.css";
 
@@ -11,6 +11,7 @@ export class Searchbar extends Component {
     event.preventDefault();
     const { name } = this.state;
     this.props.onSubmit(name);
+    this.setState({ name: "" });
   };
 
   handleChange = (event) => {

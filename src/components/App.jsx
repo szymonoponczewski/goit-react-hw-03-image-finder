@@ -1,4 +1,4 @@
-import { Component } from "react";
+import React, { Component } from "react";
 import { fetchPictures } from "./services/api";
 import { Searchbar } from "./Searchbar/Searchbar";
 import { ImageGallery } from "./ImageGallery/ImageGallery";
@@ -16,32 +16,22 @@ class App extends Component {
     modal: "",
   };
 
-  async componentDidUpdate(prevState, prevProps) {
+  async componentDidUpdate(prevProps) {
     if (
       this.state.searchValue !== prevProps.searchValue ||
       this.state.page !== prevProps.page
     ) {
       try {
-        this.setState({ isLoading: true });
+        this.setState({ isLoading: true, photos: [] });
 
         const photos = await fetchPictures(
           this.state.searchValue,
           this.state.page
         );
 
-        photos.map((photo) => {
-          return this.setState((prevState) => ({
-            photos: [
-              ...prevState.photos,
-              {
-                id: photo.id,
-                webformatURL: photo.webformatURL,
-                largeImageURL: photo.largeImageURL,
-                tags: photo.tags,
-              },
-            ],
-          }));
-        });
+        this.setState((prevState) => ({
+          photos: [...prevState.photos, ...photos],
+        }));
       } catch (error) {
         this.setState({ error });
         console.log(this.state.error);
